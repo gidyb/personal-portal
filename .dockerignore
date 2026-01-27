@@ -1,0 +1,11 @@
+node_modules
+vendor
+public/build
+storage/*.key
+.env
+.git
+.github
+database/*.sqlite
+Dockerfile
+render-build.sh
+render.yaml
