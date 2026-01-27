@@ -11,7 +11,7 @@ export default function FinancePanel() {
             .then(res => res.json())
             .then(json => {
                 setData(json);
-                setLoading(json.length === 0);
+                setLoading(false);
             })
             .catch(err => {
                 console.error('Failed to fetch finance data', err);
