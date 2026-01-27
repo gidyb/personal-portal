@@ -49,7 +49,7 @@ export default function FinancePanel() {
                                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tight leading-none mb-1">{item.name}</span>
                                 <div className="flex items-center gap-2">
                                     <span className="text-lg font-black text-gray-900 leading-none">
-                                        {item.currentPrice.toLocaleString()}
+                                        {typeof item.currentPrice === 'number' ? item.currentPrice.toLocaleString() : item.currentPrice}
                                     </span>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@ export default function FinancePanel() {
                                         axisLine={false}
                                         tickLine={false}
                                         tick={{ fontSize: 8, fill: '#d1d5db' }}
-                                        interval={Math.floor(item.history.length / 2)}
+                                        interval={Math.max(1, Math.floor((item.history?.length || 1) / 2))}
                                     />
                                     <YAxis
                                         hide={false}

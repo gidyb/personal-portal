@@ -70,7 +70,7 @@ export default function PortalContent({ auth }) {
                                     {loadingWeather && <span className="w-2 h-2 bg-indigo-400 rounded-full animate-ping"></span>}
                                 </div>
 
-                                {weather ? (
+                                {weather?.current_weather ? (
                                     <div className="flex flex-col">
                                         <div className="text-2xl font-bold text-gray-900 leading-tight">
                                             {weather.current_weather.temperature}°C
@@ -82,7 +82,9 @@ export default function PortalContent({ auth }) {
                                         )}
                                     </div>
                                 ) : (
-                                    <div className="text-xs text-gray-400">Loading...</div>
+                                    <div className="text-xs text-gray-400">
+                                        {loadingWeather ? 'Loading...' : 'Weather unavailable'}
+                                    </div>
                                 )}
                             </div>
                         </div>
