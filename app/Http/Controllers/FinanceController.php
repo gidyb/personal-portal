@@ -21,48 +21,56 @@ class FinanceController extends Controller
 
     public function index()
     {
-        return Cache::remember('finance_data', 3600, function () {
-            $results = [];
+        $results = [];
 
-            foreach ($this->symbols as $name => $symbol) {
-                try {
-                    $response = Http::get("https://query1.finance.yahoo.com/v8/finance/chart/{$symbol}", [
-                        'range' => '1mo',
-                        'interval' => '1d',
-                    ]);
+        foreach ($this->symbols as $name => $symbol) {
+            try {
+                $response = Http::withHeaders([
+                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                ])->get("https://query1.finance.yahoo.com/v8/finance/chart/{$symbol}", [
+                            'range' => '1mo',
+                            'interval' => '1d',
+                        ]);
 
-                    if ($response->successful()) {
-                        $data = $response->json();
-                        $chartData = $data['chart']['result'][0];
-                        $indicators = $chartData['indicators']['quote'][0]['close'];
-                        $timestamps = $chartData['timestamp'];
-                        $meta = $chartData['meta'];
-
-                        $history = [];
-                        foreach ($timestamps as $index => $timestamp) {
-                            if (isset($indicators[$index])) {
-                                $history[] = [
-                                    'date' => date('Y-m-d', $timestamp),
-                                    'value' => round($indicators[$index], 2),
-                                ];
-                            }
-                        }
-
-                        $results[] = [
-                            'name' => $name,
-                            'symbol' => $symbol,
-                            'currentPrice' => round($meta['regularMarketPrice'], 2),
-                            'currency' => $meta['currency'],
-                            'changePercent' => round((($meta['regularMarketPrice'] - $meta['previousClose']) / $meta['previousClose']) * 100, 2),
-                            'history' => $history,
-                        ];
+                if ($response->successful()) {
+                    $data = $response->json();
+                    if (!isset($data['chart']['result'][0])) {
+                        continue;
                     }
-                } catch (\Exception $e) {
-                    // Skip if failed
-                }
-            }
+                    $chartData = $data['chart']['result'][0];
+                    $indicators = $chartData['indicators']['quote'][0]['close'] ?? [];
+                    $timestamps = $chartData['timestamp'] ?? [];
 
-            return $results;
-        });
+                    if (empty($timestamps)) {
+                        continue;
+                    }
+
+                    $meta = $chartData['meta'];
+
+                    $history = [];
+                    foreach ($timestamps as $index => $timestamp) {
+                        if (isset($indicators[$index])) {
+                            $history[] = [
+                                'date' => date('Y-m-d', $timestamp),
+                                'value' => round($indicators[$index], 2),
+                            ];
+                        }
+                    }
+
+                    $results[] = [
+                        'name' => $name,
+                        'symbol' => $symbol,
+                        'currentPrice' => round($meta['regularMarketPrice'] ?? 0, 2),
+                        'currency' => $meta['currency'] ?? 'USD',
+                        'changePercent' => round($meta['regularMarketChangePercent'] ?? 0, 2),
+                        'history' => $history,
+                    ];
+                }
+            } catch (\Exception $e) {
+                // Skip if failed
+            }
+        }
+
+        return response()->json($results);
     }
 }

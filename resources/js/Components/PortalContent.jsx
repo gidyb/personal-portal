@@ -93,8 +93,8 @@ export default function PortalContent({ auth }) {
                 </div>
             </div>
 
-            {/* Financial Panel - Left side, half width */}
-            <div className="mt-12 flex justify-start">
+            {/* Financial Panel - Full width, 2-column layout */}
+            <div className="mt-12">
                 <FinancePanel />
             </div>
         </div>
