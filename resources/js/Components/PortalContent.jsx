@@ -74,9 +74,11 @@ export default function PortalContent({ auth }) {
                                         <div className="text-2xl font-bold text-gray-900 leading-tight">
                                             {weather.current_weather.temperature}°C
                                         </div>
-                                        <div className="text-xs text-gray-600 font-medium">
-                                            wind: {weather.current_weather.windspeed} km/h
-                                        </div>
+                                        {weather.current_weather.windspeed > 10 && (
+                                            <div className="text-xs text-gray-600 font-medium">
+                                                ({weather.current_weather.windspeed} km/h wind)
+                                            </div>
+                                        )}
                                     </div>
                                 ) : (
                                     <div className="text-xs text-gray-400">Loading...</div>
