@@ -54,7 +54,7 @@ export default function PortalContent({ auth }) {
                 {/* Compact Weather - Right side */}
                 <div className="w-full md:w-auto">
                     <a
-                        href="https://www.accuweather.com/en/ch/lausanne/315181/daily-weather-forecast/315181"
+                        href={`https://www.accuweather.com/en/search-locations?query=${weather?.city || 'current location'}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block bg-indigo-50 hover:bg-indigo-100 transition-colors rounded-xl p-4 shadow-sm group"
@@ -65,7 +65,7 @@ export default function PortalContent({ auth }) {
                             </div>
                             <div className="flex flex-col">
                                 <div className="text-sm font-semibold text-indigo-800 flex items-center gap-1">
-                                    <span className="text-xs">📍</span> Lausanne
+                                    <span className="text-xs">📍</span> {weather?.city || 'My Location'}
                                     {loadingWeather && <span className="w-2 h-2 bg-indigo-400 rounded-full animate-ping"></span>}
                                 </div>
 
