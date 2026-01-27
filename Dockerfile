@@ -1,5 +1,5 @@
-# Start with the official PHP 8.3 FPM image
-FROM php:8.3-fpm
+# Start with the official PHP 8.4 FPM image
+FROM php:8.4-fpm
 
 # Set environment variables
 ENV COMPOSER_MEMORY_LIMIT=-1
