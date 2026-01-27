@@ -22,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
     {
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
+            if (env('APP_URL')) {
+                \Illuminate\Support\Facades\URL::forceRootUrl(env('APP_URL'));
+            }
         }
         Vite::prefetch(concurrency: 3);
     }
