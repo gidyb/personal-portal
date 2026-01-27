@@ -11,13 +11,12 @@ class FinanceController extends Controller
     private $symbols = [
         'INTC' => 'INTC',
         'MBLY' => 'MBLY',
-        'S&P 500' => '^GSPC',
         'NDX 100' => '^NDX',
-        'TA-125' => '^TA125.TA',
         'USD to NIS' => 'USDILS=X',
+        'S&P 500' => '^GSPC',
+        'TA-125' => '^TA125.TA',
         'CHF to NIS' => 'CHFILS=X',
         'CHF to USD' => 'CHFUSD=X',
-        'Euro Stoxx 50' => '^STOXX50E',
     ];
 
     public function index()
@@ -63,7 +62,6 @@ class FinanceController extends Controller
                         'symbol' => $symbol,
                         'currentPrice' => round($meta['regularMarketPrice'] ?? 0, 2),
                         'currency' => $meta['currency'] ?? 'USD',
-                        'changePercent' => round($meta['regularMarketChangePercent'] ?? ((($meta['regularMarketPrice'] ?? 0) - ($meta['previousClose'] ?? 1)) / ($meta['previousClose'] ?? 1)) * 100, 2),
                         'history' => $history,
                     ];
                 }

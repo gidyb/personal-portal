@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, ResponsiveContainer, YAxis, XAxis, CartesianGrid, Tooltip } from 'recharts';
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { TrendingUp, Minus } from 'lucide-react';
 
 export default function FinancePanel() {
     const [data, setData] = useState([]);
@@ -21,12 +21,12 @@ export default function FinancePanel() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 w-full mt-8">
-                <div className="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 w-full mt-6">
+                <div className="animate-pulse grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {[...Array(8)].map((_, i) => (
                         <div key={i} className="flex flex-col gap-2">
                             <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                            <div className="h-24 bg-gray-50 rounded"></div>
+                            <div className="h-20 bg-gray-50 rounded"></div>
                         </div>
                     ))}
                 </div>
@@ -41,7 +41,7 @@ export default function FinancePanel() {
                 Financial Markets
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {data.map((item) => (
                     <div key={item.symbol} className="flex flex-col bg-gray-50/30 p-3 rounded-xl border border-gray-100 hover:border-gray-200 transition-all hover:shadow-sm">
                         <div className="flex justify-between items-start mb-1">
@@ -51,17 +51,11 @@ export default function FinancePanel() {
                                     <span className="text-lg font-black text-gray-900 leading-none">
                                         {item.currentPrice.toLocaleString()}
                                     </span>
-                                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center ${item.changePercent >= 0 ? 'bg-green-100/80 text-green-700' : 'bg-red-100/80 text-red-700'}`}>
-                                        {item.changePercent >= 0 ? '+' : ''}{item.changePercent}%
-                                        {item.changePercent > 0 ? <TrendingUp size={8} className="ml-0.5" /> :
-                                            item.changePercent < 0 ? <TrendingDown size={8} className="ml-0.5" /> :
-                                                <Minus size={8} className="ml-0.5" />}
-                                    </span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="w-full h-24 -mx-1">
+                        <div className="w-full h-20 -mx-1">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={item.history} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
@@ -71,7 +65,7 @@ export default function FinancePanel() {
                                         axisLine={false}
                                         tickLine={false}
                                         tick={{ fontSize: 8, fill: '#d1d5db' }}
-                                        interval={Math.floor(item.history.length / 3)}
+                                        interval={Math.floor(item.history.length / 2)}
                                     />
                                     <YAxis
                                         hide={false}
@@ -88,7 +82,7 @@ export default function FinancePanel() {
                                     <Line
                                         type="monotone"
                                         dataKey="value"
-                                        stroke={item.changePercent >= 0 ? '#10b981' : '#ef4444'}
+                                        stroke="#6366f1"
                                         strokeWidth={1.5}
                                         dot={false}
                                         activeDot={{ r: 3, strokeWidth: 0 }}
