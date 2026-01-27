@@ -9,9 +9,20 @@ class WeatherController extends Controller
 {
     public function index()
     {
-        // Defaulting to a central coordinate; ideally this would be user-configurable
-        $latitude = 51.5074;
-        $longitude = -0.1278;
+        // 1. Get current location via IP (using server-side IP detection)
+        $locationResponse = Http::get('http://ip-api.com/json/');
+        $location = $locationResponse->json();
+
+        if ($location && $location['status'] === 'success') {
+            $latitude = $location['lat'];
+            $longitude = $location['lon'];
+            $city = $location['city'];
+        } else {
+            // Fallback to Lausanne
+            $latitude = 46.5197;
+            $longitude = 6.6323;
+            $city = 'Lausanne';
+        }
 
         $response = Http::get('https://api.open-meteo.com/v1/forecast', [
             'latitude' => $latitude,
@@ -20,6 +31,9 @@ class WeatherController extends Controller
             'timezone' => 'auto',
         ]);
 
-        return response()->json($response->json());
+        $data = $response->json();
+        $data['city'] = $city;
+
+        return response()->json($data);
     }
 }
