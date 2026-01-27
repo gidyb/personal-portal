@@ -35,61 +35,61 @@ export default function FinancePanel() {
     }
 
     return (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 w-full mt-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-8 flex items-center gap-2">
-                <TrendingUp size={24} className="text-indigo-600" />
-                Financial Markets Overview
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 w-full mt-6">
+            <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <TrendingUp size={20} className="text-indigo-600" />
+                Financial Markets
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {data.map((item) => (
-                    <div key={item.symbol} className="flex flex-col bg-gray-50/50 p-4 rounded-xl border border-gray-50 hover:border-gray-200 transition-all hover:shadow-sm">
+                    <div key={item.symbol} className="flex flex-col bg-gray-50/30 p-3 rounded-xl border border-gray-100 hover:border-gray-200 transition-all hover:shadow-sm">
                         <div className="flex justify-between items-start mb-1">
                             <div className="flex flex-col">
-                                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{item.name}</span>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-xl font-bold text-gray-900 leading-none">
+                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tight leading-none mb-1">{item.name}</span>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-lg font-black text-gray-900 leading-none">
                                         {item.currentPrice.toLocaleString()}
-                                        <span className="text-xs font-normal text-gray-400 ml-1">{item.currency}</span>
                                     </span>
-                                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center ${item.changePercent >= 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center ${item.changePercent >= 0 ? 'bg-green-100/80 text-green-700' : 'bg-red-100/80 text-red-700'}`}>
                                         {item.changePercent >= 0 ? '+' : ''}{item.changePercent}%
-                                        {item.changePercent > 0 ? <TrendingUp size={10} className="ml-0.5" /> :
-                                            item.changePercent < 0 ? <TrendingDown size={10} className="ml-0.5" /> :
-                                                <Minus size={10} className="ml-0.5" />}
+                                        {item.changePercent > 0 ? <TrendingUp size={8} className="ml-0.5" /> :
+                                            item.changePercent < 0 ? <TrendingDown size={8} className="ml-0.5" /> :
+                                                <Minus size={8} className="ml-0.5" />}
                                     </span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="w-full h-28 -mx-2">
+                        <div className="w-full h-24 -mx-1">
                             <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={item.history} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                                <LineChart data={item.history} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                                     <XAxis
                                         dataKey="date"
                                         hide={false}
                                         axisLine={false}
                                         tickLine={false}
-                                        tick={{ fontSize: 9, fill: '#9ca3af' }}
-                                        interval={Math.floor(item.history.length / 4)}
+                                        tick={{ fontSize: 8, fill: '#d1d5db' }}
+                                        interval={Math.floor(item.history.length / 3)}
                                     />
                                     <YAxis
                                         hide={false}
                                         domain={['auto', 'auto']}
                                         axisLine={false}
                                         tickLine={false}
-                                        tick={{ fontSize: 9, fill: '#9ca3af' }}
+                                        tick={{ fontSize: 8, fill: '#d1d5db' }}
                                     />
                                     <Tooltip
-                                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', fontSize: '10px' }}
+                                        contentStyle={{ borderRadius: '6px', border: 'none', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', fontSize: '9px', padding: '4px 8px' }}
                                         itemStyle={{ padding: 0 }}
+                                        cursor={{ stroke: '#e5e7eb', strokeWidth: 1 }}
                                     />
                                     <Line
                                         type="monotone"
                                         dataKey="value"
                                         stroke={item.changePercent >= 0 ? '#10b981' : '#ef4444'}
-                                        strokeWidth={2}
+                                        strokeWidth={1.5}
                                         dot={false}
                                         activeDot={{ r: 3, strokeWidth: 0 }}
                                         isAnimationActive={true}
@@ -102,8 +102,8 @@ export default function FinancePanel() {
             </div>
 
             {data.length === 0 && (
-                <div className="text-center py-12 text-gray-400">
-                    <p>No financial data available at the moment.</p>
+                <div className="text-center py-8 text-gray-400">
+                    <p className="text-sm italic">No market data available.</p>
                 </div>
             )}
         </div>

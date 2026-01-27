@@ -17,6 +17,7 @@ class FinanceController extends Controller
         'USD to NIS' => 'USDILS=X',
         'CHF to NIS' => 'CHFILS=X',
         'CHF to USD' => 'CHFUSD=X',
+        'Euro Stoxx 50' => '^STOXX50E',
     ];
 
     public function index()
@@ -62,7 +63,7 @@ class FinanceController extends Controller
                         'symbol' => $symbol,
                         'currentPrice' => round($meta['regularMarketPrice'] ?? 0, 2),
                         'currency' => $meta['currency'] ?? 'USD',
-                        'changePercent' => round($meta['regularMarketChangePercent'] ?? 0, 2),
+                        'changePercent' => round($meta['regularMarketChangePercent'] ?? ((($meta['regularMarketPrice'] ?? 0) - ($meta['previousClose'] ?? 1)) / ($meta['previousClose'] ?? 1)) * 100, 2),
                         'history' => $history,
                     ];
                 }
