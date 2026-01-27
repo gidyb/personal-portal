@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import FinancePanel from './FinancePanel';
 
 export default function PortalContent({ auth }) {
     const [time, setTime] = useState(new Date());
@@ -90,6 +90,11 @@ export default function PortalContent({ auth }) {
                         </div>
                     </a>
                 </div>
+            </div>
+
+            {/* Financial Panel - Left side, half width */}
+            <div className="mt-12 flex justify-start">
+                <FinancePanel />
             </div>
         </div>
     );

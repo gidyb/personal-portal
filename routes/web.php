@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WeatherController;
 use Illuminate\Foundation\Application;
@@ -11,6 +12,7 @@ Route::get('/', function () {
 })->name('dashboard');
 
 Route::get('/weather', [WeatherController::class, 'index'])->name('weather');
+Route::get('/finance', [FinanceController::class, 'index'])->name('finance');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
