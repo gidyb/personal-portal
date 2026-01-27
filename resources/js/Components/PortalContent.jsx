@@ -62,7 +62,7 @@ export default function PortalContent({ auth }) {
                     >
                         <div className="flex items-center gap-4">
                             <div className="text-5xl group-hover:scale-110 transition-transform">
-                                {weather ? getWeatherIcon(weather.current_weather.weathercode) : '...'}
+                                {weather?.current_weather ? getWeatherIcon(weather.current_weather.weathercode) : '...'}
                             </div>
                             <div className="flex flex-col">
                                 <div className="text-sm font-semibold text-indigo-800 flex items-center gap-1">

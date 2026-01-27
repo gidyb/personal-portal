@@ -48,15 +48,11 @@ RUN touch database/database.sqlite \
     && chmod -R 777 storage bootstrap/cache database
 
 # Set up the start script
-RUN echo '#!/bin/sh\n\
-    php artisan migrate --force\n\
-    php artisan config:cache\n\
-    php artisan route:cache\n\
-    php artisan view:cache\n\
-    php artisan serve --host=0.0.0.0 --port=$PORT' > /start.sh && chmod +x /start.sh
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Expose port
 EXPOSE 8000
 
 # Start the application
-CMD ["/start.sh"]
+CMD ["/usr/local/bin/docker-entrypoint.sh"]
