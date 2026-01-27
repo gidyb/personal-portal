@@ -1,5 +1,8 @@
-# Start with the official PHP 8.2 FPM image
-FROM php:8.2-fpm
+# Start with the official PHP 8.3 FPM image
+FROM php:8.3-fpm
+
+# Set environment variables
+ENV COMPOSER_MEMORY_LIMIT=-1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -10,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev \
     libsqlite3-dev \
+    libicu-dev \
     zip \
     unzip \
     gnupg2
@@ -18,7 +22,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql pdo_sqlite mbstring exif pcntl bcmath gd zip
+RUN docker-php-ext-install pdo_mysql pdo_sqlite mbstring exif pcntl bcmath gd zip intl
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -33,8 +37,8 @@ WORKDIR /var/www
 # Copy existing application directory contents
 COPY . /var/www
 
-# Install composer dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+# Install composer dependencies with high verbosity to see what is failing
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts -vvv
 
 # Install npm dependencies and build assets
 RUN npm install && npm run build
