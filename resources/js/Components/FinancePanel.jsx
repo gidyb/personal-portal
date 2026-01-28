@@ -10,7 +10,7 @@ export default function FinancePanel() {
         fetch('/finance')
             .then(res => res.json())
             .then(json => {
-                setData(json);
+                setData(Array.isArray(json) ? json : []);
                 setLoading(false);
             })
             .catch(err => {

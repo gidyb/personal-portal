@@ -20,7 +20,9 @@ export default function PortalContent({ auth }) {
         fetch('/weather')
             .then(res => res.json())
             .then(data => {
-                setWeather(data);
+                if (data && typeof data === 'object') {
+                    setWeather(data);
+                }
                 setLoadingWeather(false);
             })
             .catch(err => {
