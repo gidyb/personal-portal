@@ -5,6 +5,11 @@ export default function PortalContent({ auth }) {
     const [time, setTime] = useState(new Date());
     const [weather, setWeather] = useState(null);
     const [loadingWeather, setLoadingWeather] = useState(true);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         const timer = setInterval(() => setTime(new Date()), 1000);
@@ -36,8 +41,10 @@ export default function PortalContent({ auth }) {
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     };
 
+    if (!mounted) return null;
+
     return (
-        <div className="p-6">
+        <div className="p-6 min-h-[500px]">
             <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
                 {/* Greeting and Time - Left/Center */}
                 <div className="flex-1 text-center md:text-left">

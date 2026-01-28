@@ -57,7 +57,7 @@ export default function FinancePanel() {
 
                         <div className="w-full h-20 -mx-1">
                             <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={item.history} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
+                                <LineChart data={item.history || []} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                                     <XAxis
                                         dataKey="date"
