@@ -10,53 +10,60 @@ class QuoteController extends Controller
 {
     private $frenchContent = [
         [
-            'quote' => "Le succès n'est pas final, l'échec n'est pas fatal : c'est le courage de continuer qui compte.",
-            'author' => "Winston Churchill",
-            'word' => "Courage",
-            'translation' => "Courage",
-            'usage' => "Il faut du courage pour changer de carrière à 40 ans."
+            'quote' => "L'imagination est plus importante que le savoir. Le savoir est limité alors que l'imagination englobe le monde entier.",
+            'translation' => "Imagination is more important than knowledge. Knowledge is limited whereas imagination encompasses the entire world.",
+            'author' => "Albert Einstein",
+            'word' => "Englober",
+            'translation_word' => "To encompass / To include",
+            'usage' => "Ce projet doit englober tous les aspects de la durabilité environnementale."
         ],
         [
-            'quote' => "La vie est un voyage, pas une destination.",
-            'author' => "Ralph Waldo Emerson",
-            'word' => "Voyage",
-            'translation' => "Journey / Trip",
-            'usage' => "Bon voyage ! J'espère que tu passeras de bonnes vacances."
+            'quote' => "Le bonheur est parfois caché dans l'inconnu.",
+            'translation' => "Happiness is sometimes hidden in the unknown.",
+            'author' => "Victor Hugo",
+            'word' => "L'inconnu",
+            'translation_word' => "The unknown",
+            'usage' => "Face à l'inconnu, il est normal de ressentir une certaine appréhension."
         ],
         [
-            'quote' => "Petit à petit, l'oiseau fait son nid.",
-            'author' => "Proverbe Français",
-            'word' => "Petit à petit",
-            'translation' => "Little by little",
-            'usage' => "J'apprends le français petit à petit, chaque jour."
+            'quote' => "Rien ne se perd, rien ne se crée, tout se transforme.",
+            'translation' => "Nothing is lost, nothing is created, everything is transformed.",
+            'author' => "Antoine Lavoisier",
+            'word' => "Se transformer",
+            'translation_word' => "To transform (oneself)",
+            'usage' => "Avec le temps, cette vieille usine va se transformer en un centre culturel moderne."
         ],
         [
-            'quote' => "Rien n'est impossible, seule la peur de l'échec l'est.",
-            'author' => "Paulo Coelho",
-            'word' => "Échec",
-            'translation' => "Failure",
-            'usage' => "L'échec n'est qu'une opportunité de recommencer plus intelligemment."
+            'quote' => "Exige beaucoup de toi-même et attends peu des autres. Ainsi beaucoup d'ennuis te seront épargnés.",
+            'translation' => "Demand much from yourself and expect little from others. Thus many troubles will be spared you.",
+            'author' => "Confucius",
+            'word' => "Épargner",
+            'translation_word' => "To spare / To save",
+            'usage' => "Grâce à son intervention rapide, de graves complications ont été épargnées au patient."
         ],
         [
-            'quote' => "Le plus grand voyage commence par un premier pas.",
-            'author' => "Lao Tseu",
-            'word' => "Commencer",
-            'translation' => "To start / To begin",
-            'usage' => "Je vais commencer mon nouveau projet demain matin."
+            'quote' => "La plus grande gloire n'est pas de ne jamais tomber, mais de se relever à chaque chute.",
+            'translation' => "The greatest glory is not in never falling, but in rising every time we fall.",
+            'author' => "Nelson Mandela",
+            'word' => "Une chute",
+            'translation_word' => "A fall / A drop",
+            'usage' => "La chute des températures a été soudaine après le coucher du soleil."
         ],
         [
-            'quote' => "Vouloir, c'est pouvoir.",
-            'author' => "Proverbe Français",
-            'word' => "Vouloir",
-            'translation' => "To want",
-            'usage' => "Si tu veux vraiment réussir, tu trouveras un moyen."
+            'quote' => "On ne voit bien qu'avec le cœur. L'essentiel est invisible pour les yeux.",
+            'translation' => "One sees clearly only with the heart. What is essential is invisible to the eye.",
+            'author' => "Antoine de Saint-Exupéry",
+            'word' => "L'essentiel",
+            'translation_word' => "The essential / The core",
+            'usage' => "L'essentiel dans ce débat est de trouver un compromis acceptable pour tous."
         ],
         [
-            'quote' => "La patience est amère, mais son fruit est doux.",
-            'author' => "Jean-Jacques Rousseau",
-            'word' => "Doux / Douce",
-            'translation' => "Sweet / Soft",
-            'usage' => "Cette pomme est très douce et sucrée."
+            'quote' => "Le courage, c'est de chercher la vérité et de la dire ; ce n'est pas de subir la loi du mensonge triomphant.",
+            'translation' => "Courage is to seek the truth and tell it; it is not to suffer the law of the triumphant lie.",
+            'author' => "Jean Jaurès",
+            'word' => "Subir",
+            'translation_word' => "To undergo / To suffer / To endure",
+            'usage' => "Il a dû subir plusieurs examens médicaux avant d'obtenir son diagnostic."
         ],
     ];
 
@@ -90,11 +97,12 @@ class QuoteController extends Controller
                 ],
                 'frenchQuote' => [
                     'text' => $selectedFrench['quote'],
+                    'translation' => $selectedFrench['translation'],
                     'author' => $selectedFrench['author']
                 ],
                 'frenchWord' => [
                     'word' => $selectedFrench['word'],
-                    'translation' => $selectedFrench['translation'],
+                    'translation' => $selectedFrench['translation_word'],
                     'usage' => $selectedFrench['usage']
                 ]
             ];
