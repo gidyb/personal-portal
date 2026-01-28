@@ -25,20 +25,21 @@ class SwitzerlandImageController extends Controller
 
     public function index()
     {
-        return Cache::remember('switzerland_landscape_image_v5', 3600, function () {
-            // 1. Get current weather for keyword hints
+        return Cache::remember('switzerland_landscape_image_v6', 3600, function () {
+            // 1. Get context
             $weather = $this->getWeatherKeywords();
             $season = $this->getSeason();
+            $timeOfDay = ($hour = (int) date('G')) && ($hour < 7 || $hour > 18) ? 'night' : 'day';
 
-            // 2. Pick a location based on the hour
-            $hour = (int) date('G');
+            // 2. Pick a location
             $locationIndex = $hour % count($this->locations);
             $location = $this->locations[$locationIndex];
 
             // 3. Build keywords for Lorem Flickr
-            $keywords = "switzerland," . str_replace(' ', '', $location['query']) . "," . $season;
+            // We include Switzerland and the location first to ensure geographic relevance
+            $keywords = "switzerland," . str_replace(' ', '', $location['query']) . "," . $season . "," . $weather . "," . $timeOfDay;
 
-            // 4. Using Lorem Flickr as a more reliable alternative to Unsplash redirects
+            // 4. Using Lorem Flickr with better context
             $imageUrl = "https://loremflickr.com/800/600/" . $keywords . "/all";
 
             return [
@@ -46,6 +47,7 @@ class SwitzerlandImageController extends Controller
                 'location' => $location['name'],
                 'weather_tag' => $weather,
                 'season_tag' => $season,
+                'time_tag' => $timeOfDay,
                 'updated_at' => now()->toISOString()
             ];
         });
