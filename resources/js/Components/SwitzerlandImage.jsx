@@ -6,7 +6,6 @@ export default function SwitzerlandImage() {
     const [loading, setLoading] = useState(true);
     const [mounted, setMounted] = useState(false);
     const [version, setVersion] = useState(0);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         setMounted(true);
@@ -15,19 +14,14 @@ export default function SwitzerlandImage() {
     useEffect(() => {
         if (!mounted) return;
         setLoading(true);
-        setError(null);
 
         fetch(`/landscape?v=${version}`)
-            .then(res => {
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                return res.json();
-            })
+            .then(res => res.json())
             .then(data => {
                 setImageData(data);
             })
             .catch(err => {
                 console.error('Failed to fetch landscape image', err);
-                setError(err.message);
                 setLoading(false);
             });
     }, [mounted, version]);
@@ -39,18 +33,6 @@ export default function SwitzerlandImage() {
     };
 
     if (!mounted) return null;
-
-    if (error) {
-        return (
-            <div className="w-full h-32 md:h-48 lg:h-64 bg-red-50 rounded-3xl flex items-center justify-center border-2 border-red-200">
-                <div className="text-red-500 text-xs font-bold p-4 text-center">
-                    Image Load Error: {error}
-                    <br />
-                    <button onClick={() => setVersion(v => v + 1)} className="mt-2 text-indigo-600 hover:underline">Retry</button>
-                </div>
-            </div>
-        );
-    }
 
     if (loading && version === 0 && !imageData) {
         return (
@@ -77,17 +59,10 @@ export default function SwitzerlandImage() {
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     onLoad={() => setLoading(false)}
                     onError={(e) => {
-                        console.error('Image Load Error', e);
                         e.target.onerror = null;
                         e.target.src = "https://images.unsplash.com/photo-1527668752968-14dc70a27c85?auto=format&fit=crop&q=80&w=400&h=300";
                     }}
                 />
-
-                {/* Debug Info Overlay - Temporary */}
-                <div className="absolute bottom-0 left-0 bg-black/80 text-green-300 text-[10px] p-2 leading-tight w-full break-all font-mono z-50 pointer-events-none opacity-50 hover:opacity-100">
-                    STATUS: {loading ? 'LOADING' : 'LOADED'} | V: {version} <br />
-                    URL: {imageData.url}
-                </div>
 
                 {/* Minimal Overlay on Hover */}
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4 text-center backdrop-blur-[3px]">
