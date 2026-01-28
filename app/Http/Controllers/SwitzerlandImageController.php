@@ -23,41 +23,56 @@ class SwitzerlandImageController extends Controller
         ['name' => 'Oeschinen Lake', 'query' => 'Oeschinensee'],
     ];
 
-    public function index()
+    public function index(Request $request)
     {
-        return Cache::remember('switzerland_landscape_image_v8', 3600, function () {
-            // 1. Get context
-            $weather = $this->getWeatherKeywords();
-            $season = $this->getSeason();
-            $hour = (int) date('G');
+        $version = $request->get('v', 0);
+        $cacheKey = 'switzerland_landscape_image_v8';
 
-            // Night starts at 5 PM (17:00) in winter Switzerland
-            $timeOfDay = ($hour < 7 || $hour >= 17) ? 'night' : 'day';
+        if ($version > 0) {
+            return $this->generateImageData($version);
+        }
 
-            // 2. Pick a location
-            $locationIndex = $hour % count($this->locations);
-            $location = $this->locations[$locationIndex];
-
-            // 3. Build keywords for Lorem Flickr
-            // We use 'switzerland' and 'nature' as base keywords to avoid street scenes
-            $keywords = "switzerland,nature,landscape,{$timeOfDay},{$weather}";
-            if ($weather !== 'sunny') {
-                $keywords .= ",dark,moody";
-            }
-
-            // 4. Using Lorem Flickr with refined tags
-            $imageUrl = "https://loremflickr.com/800/600/" . $keywords . "/all";
-
-            return [
-                'url' => $imageUrl,
-                'location' => $location['name'],
-                'maps_link' => "https://www.google.com/maps/search/?api=1&query=" . urlencode($location['name'] . ", Switzerland"),
-                'weather_tag' => $weather,
-                'season_tag' => $season,
-                'time_tag' => $timeOfDay,
-                'updated_at' => now()->toISOString()
-            ];
+        return Cache::remember($cacheKey, 3600, function () {
+            return $this->generateImageData(0);
         });
+    }
+
+    private function generateImageData($seed = 0)
+    {
+        // 1. Get context
+        $weather = $this->getWeatherKeywords();
+        $season = $this->getSeason();
+        $hour = (int) date('G');
+
+        // Night starts at 5 PM (17:00) in winter Switzerland
+        $timeOfDay = ($hour < 7 || $hour >= 17) ? 'night' : 'day';
+
+        // 2. Pick a location
+        $locationIndex = $hour % count($this->locations);
+        $location = $this->locations[$locationIndex];
+
+        // 3. Build keywords for Lorem Flickr
+        // We use 'switzerland' and 'nature' as base keywords to avoid street scenes
+        $keywords = "switzerland,nature,landscape,{$timeOfDay},{$weather}";
+        if ($weather !== 'sunny') {
+            $keywords .= ",dark,moody";
+        }
+
+        // 4. Using Lorem Flickr with refined tags
+        $imageUrl = "https://loremflickr.com/800/600/" . $keywords . "/all";
+        if ($seed > 0) {
+            $imageUrl .= "?lock=" . (time() + $seed);
+        }
+
+        return [
+            'url' => $imageUrl,
+            'location' => $location['name'],
+            'maps_link' => "https://www.google.com/maps/search/?api=1&query=" . urlencode($location['name'] . ", Switzerland"),
+            'weather_tag' => $weather,
+            'season_tag' => $season,
+            'time_tag' => $timeOfDay,
+            'updated_at' => now()->toISOString()
+        ];
     }
 
     private function getSeason()

@@ -15,13 +15,11 @@ export default function SwitzerlandImage() {
         if (!mounted) return;
         setLoading(true);
 
-        fetch('/landscape')
+        fetch(`/landscape?v=${version}`)
             .then(res => res.json())
             .then(data => {
-                // Append version to URL to force-fetch a new random image from Flickr
-                const urlWithVersion = `${data.url}${data.url.includes('?') ? '&' : '?'}v=${version}`;
-                setImageData({ ...data, url: urlWithVersion });
-                setLoading(false);
+                setImageData(data);
+                // We keep loading true until the image actually finishes loading in the <img> tag
             })
             .catch(err => {
                 console.error('Failed to fetch landscape image', err);
