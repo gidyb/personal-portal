@@ -5,18 +5,26 @@ import { TrendingUp, Minus } from 'lucide-react';
 export default function FinancePanel() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [lastUpdated, setLastUpdated] = useState(null);
 
-    useEffect(() => {
+    const fetchData = () => {
         fetch('/finance')
             .then(res => res.json())
             .then(json => {
                 setData(Array.isArray(json) ? json : []);
+                setLastUpdated(new Date());
                 setLoading(false);
             })
             .catch(err => {
                 console.error('Failed to fetch finance data', err);
                 setLoading(false);
             });
+    };
+
+    useEffect(() => {
+        fetchData();
+        const interval = setInterval(fetchData, 300000); // Refresh every 5 minutes
+        return () => clearInterval(interval);
     }, []);
 
     if (loading) {
@@ -36,10 +44,23 @@ export default function FinancePanel() {
 
     return (
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 w-full mt-6">
-            <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
-                <TrendingUp size={20} className="text-indigo-600" />
-                Financial Markets
-            </h2>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                    <TrendingUp size={20} className="text-indigo-600" />
+                    Financial Markets
+                </h2>
+                {lastUpdated && (
+                    <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">
+                            Live updates • Last: {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                    </div>
+                )}
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {data.map((item) => (

@@ -30,6 +30,7 @@ class FinanceController extends Controller
                 ])->get("https://query1.finance.yahoo.com/v8/finance/chart/{$symbol}", [
                             'range' => '1mo',
                             'interval' => '1d',
+                            't' => time(), // Cache buster
                         ]);
 
                 if ($response->successful()) {
