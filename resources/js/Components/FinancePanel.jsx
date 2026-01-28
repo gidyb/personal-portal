@@ -76,8 +76,8 @@ export default function FinancePanel() {
                             </div>
                         </div>
 
-                        <div className="w-full h-20 min-h-[80px]">
-                            <ResponsiveContainer width="100%" height="100%">
+                        <div style={{ width: '100%', height: 80 }}>
+                            <ResponsiveContainer>
                                 <LineChart data={item.history || []} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                                     <XAxis

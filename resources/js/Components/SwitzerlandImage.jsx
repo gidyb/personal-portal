@@ -6,6 +6,7 @@ export default function SwitzerlandImage() {
     const [loading, setLoading] = useState(true);
     const [mounted, setMounted] = useState(false);
     const [version, setVersion] = useState(0);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         setMounted(true);
@@ -14,15 +15,19 @@ export default function SwitzerlandImage() {
     useEffect(() => {
         if (!mounted) return;
         setLoading(true);
+        setError(null);
 
         fetch(`/landscape?v=${version}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
             .then(data => {
                 setImageData(data);
-                // We keep loading true until the image actually finishes loading in the <img> tag
             })
             .catch(err => {
                 console.error('Failed to fetch landscape image', err);
+                setError(err.message);
                 setLoading(false);
             });
     }, [mounted, version]);
@@ -35,7 +40,19 @@ export default function SwitzerlandImage() {
 
     if (!mounted) return null;
 
-    if (loading && version === 0) {
+    if (error) {
+        return (
+            <div className="w-full h-32 md:h-48 lg:h-64 bg-red-50 rounded-3xl flex items-center justify-center border-2 border-red-200">
+                <div className="text-red-500 text-xs font-bold p-4 text-center">
+                    Image Load Error: {error}
+                    <br />
+                    <button onClick={() => setVersion(v => v + 1)} className="mt-2 text-indigo-600 hover:underline">Retry</button>
+                </div>
+            </div>
+        );
+    }
+
+    if (loading && version === 0 && !imageData) {
         return (
             <div className="w-full h-32 md:h-48 lg:h-64 bg-gray-100 rounded-3xl animate-pulse flex items-center justify-center border-2 border-white shadow-sm">
                 <span className="text-2xl">🏔️</span>
