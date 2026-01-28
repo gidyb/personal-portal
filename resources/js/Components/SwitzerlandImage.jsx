@@ -39,7 +39,13 @@ export default function SwitzerlandImage() {
 
     return (
         <div className="flex flex-col items-center group">
-            <div className="relative w-24 h-24 md:w-48 md:h-32 rounded-2xl overflow-hidden shadow-lg border-2 border-white transition-all group-hover:shadow-indigo-100 group-hover:border-indigo-50 bg-gray-50">
+            <a
+                href={imageData.maps_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative w-24 h-24 md:w-48 md:h-32 rounded-2xl overflow-hidden shadow-lg border-2 border-white transition-all group-hover:shadow-indigo-100 group-hover:border-indigo-50 bg-gray-50 cursor-pointer block"
+                title="View on Google Maps"
+            >
                 <img
                     src={imageData.url}
                     alt={imageData.location}
@@ -54,12 +60,15 @@ export default function SwitzerlandImage() {
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-center backdrop-blur-[2px]">
                     <div className="flex flex-col items-center">
                         <MapPin size={14} className="text-indigo-300 mb-1" />
-                        <p className="text-[10px] font-bold text-white uppercase tracking-tighter leading-tight px-1">
+                        <p className="text-[10px] font-bold text-white uppercase tracking-tighter leading-tight px-1 mb-1">
                             {imageData.location}
                         </p>
+                        <div className="text-[8px] text-indigo-200 font-bold uppercase tracking-widest border border-indigo-200/30 px-2 py-0.5 rounded">
+                            Open Maps
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     );
 }
