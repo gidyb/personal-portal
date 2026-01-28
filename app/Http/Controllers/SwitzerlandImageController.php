@@ -25,7 +25,7 @@ class SwitzerlandImageController extends Controller
 
     public function index()
     {
-        return Cache::remember('switzerland_landscape_image', 3600, function () {
+        return Cache::remember('switzerland_landscape_image_v3', 3600, function () {
             // 1. Get current weather for keyword hints
             $weather = $this->getWeatherKeywords();
             $season = $this->getSeason();
@@ -35,14 +35,11 @@ class SwitzerlandImageController extends Controller
             $locationIndex = $hour % count($this->locations);
             $location = $this->locations[$locationIndex];
 
-            // 3. Build refined search query
-            $searchQuery = "switzerland, {$location['query']}, {$season}, {$weather}";
+            // 3. Simple keywords for Unsplash "featured"
+            $query = "switzerland," . str_replace(' ', '', $location['query']) . "," . $season;
 
-            // 4. Fetch from Unsplash (using public search redirect or best guess if no key)
-            // Note: Since we don't have an API key, we'll use a high-quality placeholder 
-            // that supports keywords or a known public URL pattern.
-            // Using a reliable keyword-based random image service.
-            $imageUrl = "https://images.unsplash.com/featured/?switzerland," . str_replace(' ', '', $location['query']) . "," . $season . "," . $weather;
+            // 4. Using a more standard search redirect format
+            $imageUrl = "https://images.unsplash.com/featured/400x300?" . $query;
 
             return [
                 'url' => $imageUrl,

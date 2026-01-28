@@ -63,6 +63,11 @@ export default function PortalContent({ auth }) {
                     </div>
                 </div>
 
+                {/* Dynamic Switzerland Landscape - Center */}
+                <div className="hidden md:flex flex-col items-center">
+                    <SwitzerlandImage />
+                </div>
+
                 {/* Compact Weather - Right side */}
                 <div className="w-full md:w-auto">
                     <a
@@ -104,11 +109,6 @@ export default function PortalContent({ auth }) {
                         </div>
                     </a>
                 </div>
-            </div>
-
-            {/* Dynamic Switzerland Landscape */}
-            <div className="mt-8">
-                <SwitzerlandImage />
             </div>
 
             {/* Quotes and French Learning Section */}

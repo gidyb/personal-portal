@@ -29,11 +29,8 @@ export default function SwitzerlandImage() {
 
     if (loading) {
         return (
-            <div className="w-full h-64 bg-gray-100 rounded-3xl animate-pulse mb-8 flex items-center justify-center">
-                <div className="text-gray-300 flex flex-col items-center">
-                    <span className="text-4xl mb-2">🏔️</span>
-                    <span className="text-xs font-bold uppercase tracking-widest">Loading Switzerland...</span>
-                </div>
+            <div className="w-24 h-24 md:w-48 md:h-32 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center border-2 border-white shadow-sm mx-auto">
+                <span className="text-xl">🏔️</span>
             </div>
         );
     }
@@ -41,40 +38,25 @@ export default function SwitzerlandImage() {
     if (!imageData) return null;
 
     return (
-        <div className="relative w-full h-80 md:h-96 group mb-8">
-            <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+        <div className="flex flex-col items-center group">
+            <div className="relative w-24 h-24 md:w-48 md:h-32 rounded-2xl overflow-hidden shadow-lg border-2 border-white transition-all group-hover:shadow-indigo-100 group-hover:border-indigo-50">
                 <img
                     src={imageData.url}
                     alt={imageData.location}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
-
-                {/* Location Info */}
-                <div className="absolute bottom-6 left-6 right-6">
-                    <div className="flex items-center gap-2 text-white mb-1 drop-shadow-lg">
-                        <MapPin size={18} className="text-indigo-400" />
-                        <span className="text-sm font-bold uppercase tracking-widest opacity-90">Switzerland</span>
-                    </div>
-                    <h2 className="text-2xl md:text-3xl font-black text-white drop-shadow-2xl">
+                {/* Minimal Overlay on Hover */}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-center">
+                    <p className="text-[10px] font-bold text-white uppercase tracking-tighter">
                         {imageData.location}
-                    </h2>
-
-                    {/* Status Tags */}
-                    <div className="flex gap-2 mt-3 overflow-hidden">
-                        <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-tighter border border-white/20">
-                            {imageData.season_tag}
-                        </span>
-                        <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-tighter border border-white/20">
-                            {imageData.weather_tag}
-                        </span>
-                        <span className="px-3 py-1 bg-indigo-500/80 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-tighter border border-indigo-400/50">
-                            Refreshes Hourly
-                        </span>
-                    </div>
+                    </p>
                 </div>
+            </div>
+
+            {/* Small Location Label */}
+            <div className="mt-2 flex items-center gap-1 text-[9px] font-bold text-indigo-400 uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">
+                <MapPin size={10} /> {imageData.location.split(',')[0]}
             </div>
         </div>
     );
