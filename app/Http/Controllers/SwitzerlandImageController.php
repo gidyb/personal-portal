@@ -25,21 +25,27 @@ class SwitzerlandImageController extends Controller
 
     public function index()
     {
-        return Cache::remember('switzerland_landscape_image_v6', 3600, function () {
+        return Cache::remember('switzerland_landscape_image_v7', 3600, function () {
             // 1. Get context
             $weather = $this->getWeatherKeywords();
             $season = $this->getSeason();
-            $timeOfDay = ($hour = (int) date('G')) && ($hour < 7 || $hour > 18) ? 'night' : 'day';
+            $hour = (int) date('G');
+
+            // Night starts at 5 PM (17:00) in winter Switzerland
+            $timeOfDay = ($hour < 7 || $hour >= 17) ? 'night' : 'day';
 
             // 2. Pick a location
             $locationIndex = $hour % count($this->locations);
             $location = $this->locations[$locationIndex];
 
             // 3. Build keywords for Lorem Flickr
-            // We include Switzerland and the location first to ensure geographic relevance
-            $keywords = "switzerland," . str_replace(' ', '', $location['query']) . "," . $season . "," . $weather . "," . $timeOfDay;
+            // Prioritize timeOfDay and weather to ensure mood matches
+            $keywords = "switzerland,{$timeOfDay},{$weather}";
+            if ($weather !== 'sunny') {
+                $keywords .= ",dark,moody";
+            }
 
-            // 4. Using Lorem Flickr with better context
+            // 4. Using Lorem Flickr with refined tags
             $imageUrl = "https://loremflickr.com/800/600/" . $keywords . "/all";
 
             return [
