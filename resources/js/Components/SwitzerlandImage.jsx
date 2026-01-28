@@ -39,11 +39,15 @@ export default function SwitzerlandImage() {
 
     return (
         <div className="flex flex-col items-center group">
-            <div className="relative w-24 h-24 md:w-48 md:h-32 rounded-2xl overflow-hidden shadow-lg border-2 border-white transition-all group-hover:shadow-indigo-100 group-hover:border-indigo-50">
+            <div className="relative w-24 h-24 md:w-48 md:h-32 rounded-2xl overflow-hidden shadow-lg border-2 border-white transition-all group-hover:shadow-indigo-100 group-hover:border-indigo-50 bg-gray-50">
                 <img
                     src={imageData.url}
                     alt={imageData.location}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://images.unsplash.com/photo-1527668752968-14dc70a27c85?auto=format&fit=crop&q=80&w=400&h=300"; // Reliable fallback
+                    }}
                 />
 
                 {/* Minimal Overlay on Hover */}

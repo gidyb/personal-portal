@@ -25,21 +25,21 @@ class SwitzerlandImageController extends Controller
 
     public function index()
     {
-        return Cache::remember('switzerland_landscape_image_v4', 3600, function () {
+        return Cache::remember('switzerland_landscape_image_v5', 3600, function () {
             // 1. Get current weather for keyword hints
             $weather = $this->getWeatherKeywords();
             $season = $this->getSeason();
 
-            // 2. Pick a location based on the hour to ensure variety
+            // 2. Pick a location based on the hour
             $hour = (int) date('G');
             $locationIndex = $hour % count($this->locations);
             $location = $this->locations[$locationIndex];
 
-            // 3. Robust keywords
+            // 3. Build keywords for Lorem Flickr
             $keywords = "switzerland," . str_replace(' ', '', $location['query']) . "," . $season;
 
-            // 4. Using the most reliable "featured" URL structure with cache-buster
-            $imageUrl = "https://images.unsplash.com/featured/800x600/?" . $keywords . "&sig=" . time();
+            // 4. Using Lorem Flickr as a more reliable alternative to Unsplash redirects
+            $imageUrl = "https://loremflickr.com/800/600/" . $keywords . "/all";
 
             return [
                 'url' => $imageUrl,
