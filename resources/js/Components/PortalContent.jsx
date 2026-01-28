@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FinancePanel from './FinancePanel';
+import QuotePanel from './QuotePanel';
 
 export default function PortalContent({ auth }) {
     const [time, setTime] = useState(new Date());
@@ -102,6 +103,11 @@ export default function PortalContent({ auth }) {
                         </div>
                     </a>
                 </div>
+            </div>
+
+            {/* Quotes and French Learning Section */}
+            <div className="mt-8">
+                <QuotePanel />
             </div>
 
             {/* Financial Panel - Full width, 2-column layout */}
