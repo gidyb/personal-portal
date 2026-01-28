@@ -79,9 +79,16 @@ export default function PortalContent({ auth }) {
                                     <div className="text-2xl font-black text-gray-900 leading-none">
                                         {weather?.current_weather ? `${weather.current_weather.temperature}°C` : '--'}
                                     </div>
-                                    <div className="max-h-0 overflow-hidden group-hover:max-h-12 transition-all duration-300">
-                                        <div className="text-[10px] font-bold text-indigo-800 uppercase tracking-[0.2em] pt-1">
-                                            📍 Lausanne
+                                    <div className="max-h-0 overflow-hidden group-hover:max-h-16 transition-all duration-300">
+                                        <div className="flex flex-col pt-1">
+                                            <div className="text-[10px] font-bold text-indigo-800 uppercase tracking-[0.2em]">
+                                                📍 Lausanne
+                                            </div>
+                                            {weather?.current_weather?.windspeed > 0 && (
+                                                <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">
+                                                    💨 {weather.current_weather.windspeed} km/h wind
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
