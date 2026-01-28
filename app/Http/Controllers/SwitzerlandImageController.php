@@ -25,7 +25,7 @@ class SwitzerlandImageController extends Controller
 
     public function index()
     {
-        return Cache::remember('switzerland_landscape_image_v3', 3600, function () {
+        return Cache::remember('switzerland_landscape_image_v4', 3600, function () {
             // 1. Get current weather for keyword hints
             $weather = $this->getWeatherKeywords();
             $season = $this->getSeason();
@@ -35,11 +35,11 @@ class SwitzerlandImageController extends Controller
             $locationIndex = $hour % count($this->locations);
             $location = $this->locations[$locationIndex];
 
-            // 3. Simple keywords for Unsplash "featured"
-            $query = "switzerland," . str_replace(' ', '', $location['query']) . "," . $season;
+            // 3. Robust keywords
+            $keywords = "switzerland," . str_replace(' ', '', $location['query']) . "," . $season;
 
-            // 4. Using a more standard search redirect format
-            $imageUrl = "https://images.unsplash.com/featured/400x300?" . $query;
+            // 4. Using the most reliable "featured" URL structure with cache-buster
+            $imageUrl = "https://images.unsplash.com/featured/800x600/?" . $keywords . "&sig=" . time();
 
             return [
                 'url' => $imageUrl,

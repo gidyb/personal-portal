@@ -47,16 +47,14 @@ export default function SwitzerlandImage() {
                 />
 
                 {/* Minimal Overlay on Hover */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-center">
-                    <p className="text-[10px] font-bold text-white uppercase tracking-tighter">
-                        {imageData.location}
-                    </p>
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-center backdrop-blur-[2px]">
+                    <div className="flex flex-col items-center">
+                        <MapPin size={14} className="text-indigo-300 mb-1" />
+                        <p className="text-[10px] font-bold text-white uppercase tracking-tighter leading-tight px-1">
+                            {imageData.location}
+                        </p>
+                    </div>
                 </div>
-            </div>
-
-            {/* Small Location Label */}
-            <div className="mt-2 flex items-center gap-1 text-[9px] font-bold text-indigo-400 uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">
-                <MapPin size={10} /> {imageData.location.split(',')[0]}
             </div>
         </div>
     );
