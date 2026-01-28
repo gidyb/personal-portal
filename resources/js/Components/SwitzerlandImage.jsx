@@ -68,7 +68,7 @@ export default function SwitzerlandImage() {
                 href={imageData.maps_link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`relative w-full h-48 md:h-64 lg:h-72 rounded-3xl overflow-hidden shadow-xl border-4 border-white transition-all group-hover:shadow-indigo-200 group-hover:border-indigo-50 bg-gray-50 cursor-pointer block ${loading ? 'opacity-50' : 'opacity-100'}`}
+                className="relative w-full h-48 md:h-64 lg:h-72 rounded-3xl overflow-hidden shadow-xl border-4 border-white transition-all group-hover:shadow-indigo-200 group-hover:border-indigo-50 bg-gray-50 cursor-pointer block opacity-100"
                 title="View on Google Maps"
             >
                 <img
@@ -77,10 +77,17 @@ export default function SwitzerlandImage() {
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     onLoad={() => setLoading(false)}
                     onError={(e) => {
+                        console.error('Image Load Error', e);
                         e.target.onerror = null;
-                        e.target.src = "https://images.unsplash.com/photo-1527668752968-14dc70a27c85?auto=format&fit=crop&q=80&w=400&h=300"; // Reliable fallback
+                        e.target.src = "https://images.unsplash.com/photo-1527668752968-14dc70a27c85?auto=format&fit=crop&q=80&w=400&h=300";
                     }}
                 />
+
+                {/* Debug Info Overlay - Temporary */}
+                <div className="absolute bottom-0 left-0 bg-black/80 text-green-300 text-[10px] p-2 leading-tight w-full break-all font-mono z-50 pointer-events-none opacity-50 hover:opacity-100">
+                    STATUS: {loading ? 'LOADING' : 'LOADED'} | V: {version} <br />
+                    URL: {imageData.url}
+                </div>
 
                 {/* Minimal Overlay on Hover */}
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4 text-center backdrop-blur-[3px]">
@@ -95,15 +102,11 @@ export default function SwitzerlandImage() {
                         {/* Next Button - High Visibility on Hover */}
                         <button
                             onClick={handleNext}
-                            className="bg-white/10 hover:bg-white/20 border border-white/30 text-white text-[10px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-full transition-all flex items-center gap-2 backdrop-blur-md active:scale-95"
+                            className="bg-white/10 hover:bg-white/20 border border-white/30 text-white text-[10px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-full transition-all flex items-center gap-2 backdrop-blur-md active:scale-95 pointer-events-auto"
                         >
                             <span>Next Picture</span>
                             <span className="text-lg leading-none">→</span>
                         </button>
-
-                        <div className="text-[9px] text-white/60 font-medium uppercase tracking-[0.1em] mt-2 group-hover:animate-pulse">
-                            Click background to open Maps
-                        </div>
                     </div>
                 </div>
             </a>
