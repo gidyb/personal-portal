@@ -25,33 +25,31 @@ class SwitzerlandImageController extends Controller
 
     private $imageLibrary = [
         'sunny' => [
-            'i9FLW1vO5G4',
-            't_e5s58Z0wM',
-            'eW2_F_KqZ_o',
-            'yC-Y_m_a5S8',
-            '7R_u4h5qQkI',
-            'v9L1_v6D_Y',
-            'A8r_Zq_w8fM'
+            '1464822759023-fed622ff2c3b',
+            '1506744038136-46273834b3fb',
+            '1454496522488-7a8e488e860c',
+            '1491553327339-1d4fa920d912',
+            '1472396961693-142e6e269027',
+            '1465056836041-7f43ec675526'
         ],
         'moody' => [
-            'Z8m_Zq_w8fM',
-            'A8r_Zq_w8fM',
-            'L-W-Ww-o-I',
-            'd8iG83hWp6k',
-            '_U9p8yGjS7o'
+            '1475924156734-496f6cac6ec1',
+            '1500382017468-9049fed747ef',
+            '1534447677768-be436bb09401',
+            '1494548162494-384bba4ab999',
+            '1428906368331-155546051786'
         ],
         'night' => [
-            'd8iG83hWp6k',
-            'l5Gg-yOaJpI',
-            'L5yQk0c_S00',
-            'c0iW1Hn-6gI',
-            'P21lJj_y8qU'
+            '1519681393784-d120267933ba',
+            '1534067783941-51c9c23ecfd3',
+            '1470252649358-9675c4046adc',
+            '1486783315233-5c9ac556d0d5'
         ],
         'snow' => [
-            'yC-Y_m_a5S8',
-            '7R_u4h5qQkI',
-            'v9L1_v6D_Y',
-            'L5yQk0c_S00'
+            '1491553327339-1d4fa920d912',
+            '1517299321541-3da68c41453c',
+            '1454496522488-7a8e488e860c',
+            '1486783315233-5c9ac556d0d5'
         ]
     ];
 
