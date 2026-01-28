@@ -69,7 +69,7 @@ export default function QuotePanel() {
                                 <div className="font-bold text-emerald-400 mb-1 flex items-center gap-1">
                                     <Languages size={10} /> Traduction
                                 </div>
-                                {data.frenchQuote.translation}
+                                {data.frenchQuote.translation || 'Traduction indisponible'}
                                 <div className="absolute -bottom-1 left-6 w-2 h-2 bg-gray-900 rotate-45 border-r border-b border-gray-700"></div>
                             </div>
                         </div>

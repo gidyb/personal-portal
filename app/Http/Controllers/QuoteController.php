@@ -69,7 +69,7 @@ class QuoteController extends Controller
 
     public function index()
     {
-        return Cache::remember('daily_quote_data', now()->endOfDay(), function () {
+        return Cache::remember('daily_quote_data_v2', now()->endOfDay(), function () {
             // Fetch English quote
             $englishQuote = "Believe you can and you're halfway there.";
             $englishAuthor = "Theodore Roosevelt";
