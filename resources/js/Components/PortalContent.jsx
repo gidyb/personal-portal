@@ -48,68 +48,61 @@ export default function PortalContent({ auth }) {
     if (!mounted) return null;
 
     return (
-        <div className="p-6 min-h-[500px]">
-            <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
-                {/* Greeting and Time - Left/Center */}
-                <div className="flex-1 text-center md:text-left">
-                    <h1 className="text-4xl font-bold text-indigo-600 mb-2">
-                        {getGreeting()}
-                    </h1>
-                    <div className="text-6xl font-mono text-gray-800">
-                        {formatTime(time)}
-                    </div>
-                    <div className="text-gray-500 text-lg">
-                        {time.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                    </div>
-                </div>
+        <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
+            {/* Header Section: Info Stack + Hero Landscape */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-8">
+                {/* Left Side: Greeting, Time, Weather */}
+                <div className="flex flex-col gap-6">
+                    <div className="text-center md:text-left">
+                        <h1 className="text-4xl md:text-5xl font-bold text-indigo-600 mb-2">
+                            {getGreeting()}
+                        </h1>
+                        <div className="text-6xl md:text-7xl font-mono text-gray-800 leading-tight">
+                            {formatTime(time)}
+                        </div>
+                        <div className="text-gray-500 text-lg md:text-xl mb-4">
+                            {time.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                        </div>
 
-                {/* Dynamic Switzerland Landscape - Center */}
-                <div className="hidden md:flex flex-col items-center">
-                    <SwitzerlandImage />
-                </div>
-
-                <div className="w-full md:w-auto">
-                    <a
-                        href="https://www.accuweather.com/en/ch/lausanne/315181/daily-weather-forecast/315181"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block bg-indigo-50/50 hover:bg-indigo-100 transition-all rounded-2xl p-2 px-4 shadow-sm group border border-indigo-100/50 hover:border-indigo-200"
-                    >
-                        <div className="flex items-center gap-3">
-                            <div className="text-3xl group-hover:scale-110 transition-transform">
-                                {weather?.current_weather ? getWeatherIcon(weather.current_weather.weathercode) : '...'}
-                            </div>
-                            <div className="flex flex-col">
-                                <div className="text-xl font-black text-gray-900 leading-none">
-                                    {weather?.current_weather ? `${weather.current_weather.temperature}°C` : '--'}
+                        {/* Weather: Moved under the date/time stack */}
+                        <div className="inline-block">
+                            <a
+                                href="https://www.accuweather.com/en/ch/lausanne/315181/daily-weather-forecast/315181"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-4 bg-white hover:bg-white hover:shadow-md transition-all rounded-3xl p-3 px-6 shadow-sm group border border-gray-100/50 hover:border-indigo-100"
+                            >
+                                <div className="text-4xl group-hover:scale-110 transition-transform">
+                                    {weather?.current_weather ? getWeatherIcon(weather.current_weather.weathercode) : '...'}
                                 </div>
-
-                                {/* Hidden details that appear on hover */}
-                                <div className="max-h-0 overflow-hidden group-hover:max-h-12 transition-all duration-300 ease-in-out">
-                                    <div className="flex flex-col pt-1">
-                                        <div className="text-[9px] font-bold text-indigo-800 flex items-center gap-1 uppercase tracking-widest whitespace-nowrap">
+                                <div className="flex flex-col">
+                                    <div className="text-2xl font-black text-gray-900 leading-none">
+                                        {weather?.current_weather ? `${weather.current_weather.temperature}°C` : '--'}
+                                    </div>
+                                    <div className="max-h-0 overflow-hidden group-hover:max-h-12 transition-all duration-300">
+                                        <div className="text-[10px] font-bold text-indigo-800 uppercase tracking-[0.2em] pt-1">
                                             📍 Lausanne
                                         </div>
-                                        {weather?.current_weather?.windspeed > 0 && (
-                                            <div className="text-[8px] text-gray-500 font-medium whitespace-nowrap">
-                                                {weather.current_weather.windspeed} km/h wind
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                    </a>
+                    </div>
+                </div>
+
+                {/* Right Side: Hero Switzerland Image */}
+                <div className="w-full">
+                    <SwitzerlandImage />
                 </div>
             </div>
 
-            {/* Quotes and French Learning Section */}
-            <div className="mt-8">
+            {/* Main Content: Quote of the Day & French Learning */}
+            <div className="mt-6">
                 <QuotePanel />
             </div>
 
-            {/* Financial Panel - Full width, 2-column layout */}
-            <div className="mt-12">
+            {/* Financial Stats: Full width at the bottom as requested */}
+            <div className="mt-10">
                 <FinancePanel />
             </div>
         </div>
