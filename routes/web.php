@@ -14,6 +14,7 @@ Route::get('/', function () {
 Route::get('/weather', [WeatherController::class, 'index'])->name('weather');
 Route::get('/finance', [FinanceController::class, 'index'])->name('finance');
 Route::get('/quotes', [\App\Http\Controllers\QuoteController::class, 'index'])->name('quotes');
+Route::get('/landscape', [\App\Http\Controllers\SwitzerlandImageController::class, 'index'])->name('landscape');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

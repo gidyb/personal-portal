@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FinancePanel from './FinancePanel';
 import QuotePanel from './QuotePanel';
+import SwitzerlandImage from './SwitzerlandImage';
 
 export default function PortalContent({ auth }) {
     const [time, setTime] = useState(new Date());
@@ -103,6 +104,11 @@ export default function PortalContent({ auth }) {
                         </div>
                     </a>
                 </div>
+            </div>
+
+            {/* Dynamic Switzerland Landscape */}
+            <div className="mt-8">
+                <SwitzerlandImage />
             </div>
 
             {/* Quotes and French Learning Section */}
