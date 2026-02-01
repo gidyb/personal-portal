@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, ResponsiveContainer, YAxis, XAxis, CartesianGrid, Tooltip } from 'recharts';
-import { TrendingUp, Minus } from 'lucide-react';
+import { TrendingUp, Minus, ArrowUp, ArrowDown } from 'lucide-react';
 
 export default function FinancePanel() {
     const [data, setData] = useState([]);
@@ -68,10 +68,22 @@ export default function FinancePanel() {
                         <div className="flex justify-between items-start mb-1">
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tight leading-none mb-1">{item.name}</span>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-baseline gap-2">
                                     <span className="text-lg font-black text-gray-900 leading-none">
                                         {typeof item.currentPrice === 'number' ? item.currentPrice.toLocaleString() : item.currentPrice}
                                     </span>
+                                    {item.dailyChangePercent !== undefined && (
+                                        <div className={`flex items-center gap-0.5 ${item.dailyChangePercent > 0 ? 'text-emerald-600' :
+                                                item.dailyChangePercent < 0 ? 'text-red-600' :
+                                                    'text-gray-400'
+                                            }`}>
+                                            {item.dailyChangePercent > 0 && <ArrowUp size={10} strokeWidth={3} />}
+                                            {item.dailyChangePercent < 0 && <ArrowDown size={10} strokeWidth={3} />}
+                                            <span className="text-[11px] font-bold leading-none">
+                                                {item.dailyChangePercent > 0 ? '+' : ''}{item.dailyChangePercent}%
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

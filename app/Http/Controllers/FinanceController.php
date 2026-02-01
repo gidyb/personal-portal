@@ -58,10 +58,33 @@ class FinanceController extends Controller
                         }
                     }
 
+                    $currentPrice = round($meta['regularMarketPrice'] ?? 0, 2);
+
+                    // Calculate daily change using the last two close prices from history
+                    // chartPreviousClose is not reliable - it's a reference point, not yesterday's close
+                    $dailyChange = 0;
+                    $dailyChangePercent = 0;
+                    $previousClose = 0;
+
+                    if (count($indicators) >= 2) {
+                        // Get the last two close prices
+                        $lastClose = end($indicators);
+                        $prevClose = prev($indicators);
+
+                        if ($prevClose > 0) {
+                            $previousClose = round($prevClose, 2);
+                            $dailyChange = round($lastClose - $prevClose, 2);
+                            $dailyChangePercent = round((($lastClose - $prevClose) / $prevClose) * 100, 2);
+                        }
+                    }
+
                     $results[] = [
                         'name' => $name,
                         'symbol' => $symbol,
-                        'currentPrice' => round($meta['regularMarketPrice'] ?? 0, 2),
+                        'currentPrice' => $currentPrice,
+                        'previousClose' => $previousClose,
+                        'dailyChange' => $dailyChange,
+                        'dailyChangePercent' => $dailyChangePercent,
                         'currency' => $meta['currency'] ?? 'USD',
                         'history' => $history,
                     ];
