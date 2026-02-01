@@ -7,7 +7,7 @@ export default function Dashboard({ auth = null }) {
         <AuthenticatedLayout
             user={auth?.user}
         >
-            <Head title="Dashboard" />
+            <Head title="" />
 
             <div className="pt-8 pb-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

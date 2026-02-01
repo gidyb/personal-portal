@@ -16,7 +16,7 @@ class FinanceController extends Controller
         'S&P 500' => '^GSPC',
         'TA-125' => '^TA125.TA',
         'CHF to NIS' => 'CHFILS=X',
-        'CHF to USD' => 'CHFUSD=X',
+        'USD to CHF' => 'USDCHF=X',
     ];
 
     public function index()
